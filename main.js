@@ -1,6 +1,21 @@
-window.onload = () => {
-    let ruta = 'login'; //registro o home
-    let urlogin = 'https://login-ten-sigma-39.vercel.app/auth/login';
+let ruta = 'login'; //registro o home
+let urlogin = 'https://login-ten-sigma-39.vercel.app/auth/login';
+
+
+const renderApp = () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+        return renderHome();
+    }
+    renderLogin();
+}
+const renderHome = () => {
+    const homeTemplate = document.getElementById('home-template');
+    document.getElementById('app').innerHTML = homeTemplate.innerHTML;
+}
+const renderLogin = () => {
+    const loginTemplate = document.getElementById('login-template');
+    document.getElementById('app').innerHTML = loginTemplate.innerHTML;
 
     const loginForm = document.getElementById('login-form');
 
@@ -10,21 +25,23 @@ window.onload = () => {
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
 
-        try {
+        fetch(urlogin, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, password })
+        }).then(response => response.json())  //error si no es json cuando usuario o pass incorrecto usar 
+            .then(data => {
+                localStorage.setItem('token', data.token);
+                ruta = 'home';
+                renderHome();
+            })
 
-            fetch(urlogin, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ username, password })
-            }).then(response => response.json())  //error si no es json cuando usuario o pass incorrecto usar 
-                .then(data => {
-                    console.log('Success:', data);
-                    console.log("Datos enviados al servidor");
-                })
-        } catch (error) {
-            console.error('Error:', error);
-        }
     })
+}
+
+window.onload = () => {
+    renderApp();
+    
 };
