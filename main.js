@@ -2,7 +2,7 @@ let ruta = 'login'; //registro o home
 let urlogin = 'https://login-ten-sigma-39.vercel.app/auth/login';
 let urlme = 'https://login-ten-sigma-39.vercel.app/auth/me';
 
-const token = localStorage.getItem('token');
+let token = localStorage.getItem('token');
 
 const renderApp = () => {
     if (token) {
@@ -61,5 +61,4 @@ const renderLogin = () => {
 
 window.onload = () => {
     renderApp();
-    
 };
