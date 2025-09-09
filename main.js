@@ -24,7 +24,7 @@ const renderHome = () => {
                 Authorization: token,
             }
         }).then(response => response.json()).then(User => {
-            alert(`User Info:\nName: ${User.name}\nOtros datos: ${JSON.stringify(User)}`);
+            alert(`User Info:\nName: ${User.username}\nOtros datos: ${JSON.stringify(User)}`);
         }).catch(error => {
             alert('Failed to fetch user information.' + token);
         });   
