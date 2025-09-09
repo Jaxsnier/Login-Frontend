@@ -51,6 +51,7 @@ const renderLogin = () => {
         }).then(response => response.json())  //error si no es json cuando usuario o pass incorrecto usar 
             .then(data => {
                 localStorage.setItem('token', data.token);
+                token = data.token;
                 ruta = 'home';
                 renderHome();
             })
